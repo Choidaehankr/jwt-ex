@@ -36,8 +36,8 @@ public class KaKaoService {
             bw.write(sb.toString());
             bw.flush();
 
-            int responseCode = urlConnection.getResponseCode();
-            System.out.println("responseCode = " + responseCode);
+            int tokenResponseCode = urlConnection.getResponseCode();
+            System.out.println("responseCode = " + tokenResponseCode);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
             String line = "";
@@ -79,8 +79,8 @@ public class KaKaoService {
             urlConnection.setRequestProperty("Authorization", "Bearer " + access_token);
             urlConnection.setRequestMethod("GET");
 
-            int responseCode = urlConnection.getResponseCode();
-            System.out.println("responseCode = " + responseCode);
+            int infoResponseCode = urlConnection.getResponseCode();
+            System.out.println("responseCode = " + infoResponseCode);
 
 
             BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));

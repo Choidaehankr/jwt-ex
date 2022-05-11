@@ -15,7 +15,6 @@ import java.util.Map;
 @RequestMapping("/member")
 public class KaKaoController {
 
-
     @Autowired
     KaKaoService ks;
 
