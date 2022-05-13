@@ -36,7 +36,7 @@ public class KaKaoApi {
             bw.flush();
 
             int responseCode = conn.getResponseCode();
-            System.out.println("responseCode = " + responseCode);
+//            System.out.println("responseCode = " + responseCode);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
             String line = "";
@@ -45,7 +45,7 @@ public class KaKaoApi {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-            System.out.println("response body = " + result);
+//            System.out.println("response body = " + result);
 
             // gson 라이브러리 필요
             JsonParser parser = new JsonParser();
@@ -54,8 +54,8 @@ public class KaKaoApi {
             access_token = element.getAsJsonObject().get("access_token").getAsString();
             refresh_token = element.getAsJsonObject().get("refresh_token").getAsString();
 
-            System.out.println("access_token = " + access_token);
-            System.out.println("refresh_token = " + refresh_token);
+//            System.out.println("access_token = " + access_token);
+//            System.out.println("refresh_token = " + refresh_token);
 
             br.close();;
             bw.close();
@@ -82,7 +82,7 @@ public class KaKaoApi {
             conn.setRequestProperty("Authorization", "Bearer " + access_Token);
 
             int responseCode = conn.getResponseCode();
-            System.out.println("responseCode = " + responseCode);
+//            System.out.println("responseCode = " + responseCode);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
@@ -92,7 +92,7 @@ public class KaKaoApi {
             while((line = br.readLine()) != null) {
                 result += line;
             }
-            System.out.println("response body = " + result);
+//            System.out.println("response body = " + result);
 
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
@@ -122,8 +122,7 @@ public class KaKaoApi {
             conn.setRequestProperty("Authorization", "Bearer " + access_Token);
 
             int responseCode = conn.getResponseCode();
-            System.out.println("responseCode = " + responseCode);
-
+//            System.out.println("responseCode = " + responseCode);
             BufferedReader br = new BufferedReader(new InputStreamReader(conn.getInputStream()));
 
             String result = "";
@@ -132,7 +131,7 @@ public class KaKaoApi {
             while((line = br.readLine()) != null) {
                 result += line;
             }
-            System.out.println("result: " + result);
+//            System.out.println("result: " + result);
         } catch (IOException e) {
             e.printStackTrace();
         }

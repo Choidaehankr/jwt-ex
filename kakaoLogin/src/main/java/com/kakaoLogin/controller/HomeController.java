@@ -23,7 +23,6 @@ public class HomeController {
 
     @RequestMapping(value="/login")
     public String login(@RequestParam("code") String code, HttpSession session) {
-        System.out.println("code: " + code);
         // Access Token get
         String access_token = kakao.getAccessToken(code);
         // 사용자 정보 get
@@ -38,7 +37,7 @@ public class HomeController {
             // 로그아웃 처리 시 사용할 토큰
             session.setAttribute("access_Token", access_token);
         }
-        System.out.println("session = " + session);
+//        System.out.println("session = " + session);
         return "index";
     }
 
