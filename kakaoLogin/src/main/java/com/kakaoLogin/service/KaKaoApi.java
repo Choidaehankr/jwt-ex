@@ -21,9 +21,11 @@ public class KaKaoApi {
             URL url = new URL(reqURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
 
+            // HttpURLConnection 설정 값 세팅
             conn.setRequestMethod("POST");
             conn.setDoOutput(true);
 
+            // buffer 스트림 객체 값 세팅 후 요청
             BufferedWriter bw = new BufferedWriter(new OutputStreamWriter(conn.getOutputStream()));
             StringBuilder sb = new StringBuilder();
             sb.append("grant_type=authorization_code");
@@ -43,9 +45,9 @@ public class KaKaoApi {
             while ((line = br.readLine()) != null) {
                 result += line;
             }
-
             System.out.println("response body = " + result);
 
+            // gson 라이브러리 필요
             JsonParser parser = new JsonParser();
             JsonElement element = parser.parse(result);
 
@@ -74,8 +76,9 @@ public class KaKaoApi {
         try {
             URL url = new URL(reqURL);
             HttpURLConnection conn = (HttpURLConnection) url.openConnection();
-            conn.setRequestMethod("POST");
+            conn.setRequestMethod("POST");  // GET 도 가능?
 
+            // header 설정
             conn.setRequestProperty("Authorization", "Bearer " + access_Token);
 
             int responseCode = conn.getResponseCode();
