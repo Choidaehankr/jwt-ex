@@ -126,7 +126,7 @@ public class KaKaoService {
             URL url = new URL(host);
             HttpURLConnection urlConnection = (HttpURLConnection)url.openConnection();
             urlConnection.setRequestMethod("GET");
-            urlConnection.setRequestProperty("Authorization", "Bearer "+access_token);
+            urlConnection.setRequestProperty("Authorization", "Bearer "+ access_token);
 
             BufferedReader br = new BufferedReader(new InputStreamReader(urlConnection.getInputStream()));
             String line = "";

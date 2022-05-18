@@ -28,7 +28,7 @@ public class HomeController {
         // 사용자 정보 get
         HashMap<String ,Object> userInfo = kakao.getUserInfo(access_token);
         System.out.println("login Controller = " + userInfo);
-//        System.out.println("access_token = " + access_token);
+        System.out.println("access_token = " + access_token);
         
         // 아래에 원하는 사용자 정보를 session.setAttribute 로 저장..
         if(userInfo.get("email") != null) {
@@ -46,6 +46,7 @@ public class HomeController {
         kakao.kakaoLogout((String)session.getAttribute("access_Token"));
         session.removeAttribute("access_Token");
         session.removeAttribute("userId");
+        System.out.println("로그아웃 성공!");
         return "index";
     }
 }
