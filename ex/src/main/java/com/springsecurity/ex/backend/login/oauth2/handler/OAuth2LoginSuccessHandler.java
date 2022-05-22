@@ -1,0 +1,24 @@
+package com.springsecurity.ex.backend.login.oauth2.handler;
+
+import com.springsecurity.ex.backend.domain.Role;
+import java.io.IOException;
+import javax.servlet.ServletException;
+import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
+
+public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHandler {
+
+    @Override
+    public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
+        System.out.println("로그인 성공!: " + authentication.getPrincipal());
+
+        if(authentication.getAuthorities().stream().anyMatch(s -> s.getAuthority().equals(Role.GUEST.getGrantedAuthority()))) {
+            System.out.println("가입되지 않은 유저입니다. 회원가입으로 이동합니다.");
+//            response.sendRedirect("/singUp");
+            return;
+        }
+        System.out.println("회원가입이 된 사용자입니다.");
+    }
+}
