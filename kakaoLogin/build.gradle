@@ -28,7 +28,7 @@ dependencies {
 	implementation 'jstl:jstl:1.2'
 	implementation 'com.google.code.gson:gson:2.9.0'
 
-	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
+//	implementation 'org.springframework.boot:spring-boot-starter-log4j2'
 	runtimeOnly 'mysql:mysql-connector-java'
 }
 
