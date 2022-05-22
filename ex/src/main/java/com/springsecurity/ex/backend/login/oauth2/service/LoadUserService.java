@@ -37,7 +37,7 @@ public class LoadUserService {
 //                }
 
         // 임의 수정 : switch 지원  안함
-        if (socialType.getSocialName() == "KAKAO") {
+        if (socialType.getSocialName() == "kakao") {
             this.socialLoadStrategy = new KaKaoLoadStrategy();
         } else {
             throw new IllegalArgumentException("지원하지 않는 로그인 형식입니다.");

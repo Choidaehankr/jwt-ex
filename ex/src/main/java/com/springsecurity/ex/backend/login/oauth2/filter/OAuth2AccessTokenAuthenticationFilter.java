@@ -32,7 +32,8 @@ public class OAuth2AccessTokenAuthenticationFilter extends AbstractAuthenticatio
     private static final AntPathRequestMatcher DEFAULT_OAUTH2_LOGIN_PATH_REQUEST_MATCHER =
             new AntPathRequestMatcher(DEFAULT_OAUTH2_LOGIN_REQUEST_URL_PREFIX + "*", HTTP_METHOD);
 
-    public OAuth2AccessTokenAuthenticationFilter(
+
+    public OAuth2AccessTokenAuthenticationFilter (
             AccessTokenAuthenticationProvider accessTokenAuthenticationProvider,
             AuthenticationSuccessHandler authenticationSuccessHandler,
             AuthenticationFailureHandler authenticationFailureHandler) {
@@ -51,7 +52,7 @@ public class OAuth2AccessTokenAuthenticationFilter extends AbstractAuthenticatio
 
         String accessToken = request.getHeader(ACCESS_TOKEN_HEADER_NAME);
         log.info("{}", socialType.getSocialName());
-
+        log.info("accessToken: " + accessToken);
         return this.getAuthenticationManager().authenticate(new AccessTokenSocialTypeToken(accessToken, socialType));
     }
 
