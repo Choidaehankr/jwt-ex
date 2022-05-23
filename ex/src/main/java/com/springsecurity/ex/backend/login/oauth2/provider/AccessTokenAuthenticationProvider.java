@@ -4,8 +4,8 @@ package com.springsecurity.ex.backend.login.oauth2.provider;
 import com.springsecurity.ex.backend.domain.Member;
 import com.springsecurity.ex.backend.domain.Role;
 import com.springsecurity.ex.backend.domain.repository.MemberRepository;
-import com.springsecurity.ex.backend.login.oauth2.authentication.AccessTokenSocialTypeToken;
-import com.springsecurity.ex.backend.login.oauth2.authentication.OAuth2UserDetails;
+import com.springsecurity.ex.backend.login.oauth2.filter.authentication.AccessTokenSocialTypeToken;
+import com.springsecurity.ex.backend.login.oauth2.filter.authentication.OAuth2UserDetails;
 import com.springsecurity.ex.backend.login.oauth2.service.LoadUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
@@ -34,11 +34,18 @@ public class AccessTokenAuthenticationProvider implements AuthenticationProvider
     }
 
     private Member saveOrGet(OAuth2UserDetails oAuth2User) {
+        System.out.println("oAuth2User.getPassword() = " + oAuth2User.getPassword());
+        System.out.println("oAuth2User.getSocialId() = " + oAuth2User.getSocialId());
+        System.out.println("oAuth2User.getUsername() = " + oAuth2User.getUsername());
+        System.out.println("oAuth2User.getAuthorities() = " + oAuth2User.getAuthorities());
+        System.out.println("oAuth2User.getSocialType() = " + oAuth2User.getSocialType());
+        System.out.println("oAuth2User.getClass() = " + oAuth2User.getClass());
         return memberRepository.findBySocialTypeAndSocialId(oAuth2User.getSocialType(),
                                                             oAuth2User.getSocialId())
                 .orElseGet(()-> memberRepository.save(Member.builder()
                         .socialType(oAuth2User.getSocialType())
                         .socialId(oAuth2User.getSocialId())
+//                        .role(Role.USER).build()));
                         .role(Role.GUEST).build()));
     }
 

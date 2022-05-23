@@ -1,4 +1,4 @@
-package com.springsecurity.ex.backend.login.oauth2.handler;
+package com.springsecurity.ex.backend.login.oauth2.filter.handler;
 
 import com.springsecurity.ex.backend.domain.Role;
 import java.io.IOException;
@@ -20,6 +20,11 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
         if(authentication.getAuthorities().stream().anyMatch(s -> s.getAuthority().equals(Role.GUEST.getGrantedAuthority()))) {
             System.out.println("가입되지 않은 유저입니다. 회원가입으로 이동합니다.");
+            System.out.println("authentication.getName() = " + authentication.getName());
+            System.out.println("authentication.getAuthorities() = " + authentication.getAuthorities());
+            System.out.println("authentication.getDetails() = " + authentication.getDetails());
+            System.out.println("authentication.getClass() = " + authentication.getClass());
+            System.out.println("authentication = " + authentication.getCredentials());
 //            response.sendRedirect("/singUp");
             return;
         }

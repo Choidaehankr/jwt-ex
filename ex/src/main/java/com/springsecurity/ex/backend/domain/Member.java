@@ -37,4 +37,6 @@ public class Member {
     @Enumerated(EnumType.STRING)
     private Role role;
 
+    // 클래스 추가. 내글, 관심글, 모임 등등
+
 }

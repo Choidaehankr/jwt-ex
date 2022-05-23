@@ -20,9 +20,10 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     protected void configure(HttpSecurity httpSecurity) throws Exception {
 
         httpSecurity.authorizeRequests()
-                .antMatchers("/oauth/login/*").permitAll()
-                .antMatchers("/").permitAll()
-                .anyRequest().hasRole("USER");
+                .anyRequest().permitAll();
+//                .antMatchers("/oauth/login/*").permitAll()
+//                .antMatchers("/").permitAll();
+//                .anyRequest().hasRole("USER");
 
         httpSecurity.addFilterBefore(oAuth2AccessTokenAuthenticationFilter,
                 UsernamePasswordAuthenticationFilter.class);
