@@ -1,10 +1,9 @@
 package com.springsecurity.ex.backend.login.oauth2.filter;
 
 
-import com.fasterxml.jackson.databind.JsonNode;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springsecurity.ex.backend.login.oauth2.SocialType;
-import com.springsecurity.ex.backend.login.oauth2.filter.authentication.AccessTokenSocialTypeToken;
+import com.springsecurity.ex.backend.login.oauth2.authentication.AccessTokenSocialTypeToken;
 import com.springsecurity.ex.backend.login.oauth2.provider.AccessTokenAuthenticationProvider;
 import java.io.IOException;
 import java.util.Arrays;
@@ -13,8 +12,6 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import lombok.extern.slf4j.Slf4j;
-import net.minidev.json.JSONObject;
-import net.minidev.json.parser.JSONParser;
 import org.springframework.http.HttpEntity;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.MediaType;
@@ -30,8 +27,6 @@ import org.springframework.stereotype.Component;
 import org.springframework.util.LinkedMultiValueMap;
 import org.springframework.util.MultiValueMap;
 import org.springframework.web.client.RestTemplate;
-import org.springframework.web.util.UriBuilder;
-import org.springframework.web.util.UriComponentsBuilder;
 
 @Component
 @Slf4j

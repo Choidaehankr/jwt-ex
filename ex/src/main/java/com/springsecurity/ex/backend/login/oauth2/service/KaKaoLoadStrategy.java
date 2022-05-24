@@ -18,7 +18,7 @@ public class KaKaoLoadStrategy extends SocialLoadStrategy{
                     RESPONSE_TYPE);
             return response.getBody().get("id").toString();
         } catch (Exception e) {
-            log.error("Kakao 사용자 정보를 받아오던 중 에러가 발생했씁니다. {}", e.getMessage());
+            log.error("KAKAO 사용자 정보를 받아오던 중 에러가 발생했습니다. {}", e.getMessage());
             throw e;
         }
     }

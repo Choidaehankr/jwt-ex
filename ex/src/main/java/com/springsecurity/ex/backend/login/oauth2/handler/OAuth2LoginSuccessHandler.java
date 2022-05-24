@@ -1,4 +1,4 @@
-package com.springsecurity.ex.backend.login.oauth2.filter.handler;
+package com.springsecurity.ex.backend.login.oauth2.handler;
 
 import com.springsecurity.ex.backend.domain.Role;
 import java.io.IOException;

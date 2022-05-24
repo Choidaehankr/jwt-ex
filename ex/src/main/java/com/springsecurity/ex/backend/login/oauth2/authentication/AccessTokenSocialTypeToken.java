@@ -1,4 +1,4 @@
-package com.springsecurity.ex.backend.login.oauth2.filter.authentication;
+package com.springsecurity.ex.backend.login.oauth2.authentication;
 
 import com.springsecurity.ex.backend.login.oauth2.SocialType;
 import java.util.Collection;
