@@ -4,6 +4,7 @@ package com.springsecurity.ex.backend.login.oauth2.service;
 import com.springsecurity.ex.backend.login.oauth2.SocialType;
 import com.springsecurity.ex.backend.login.oauth2.authentication.AccessTokenSocialTypeToken;
 import com.springsecurity.ex.backend.login.oauth2.authentication.OAuth2UserDetails;
+import com.springsecurity.ex.backend.login.oauth2.provider.ApplicationTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;

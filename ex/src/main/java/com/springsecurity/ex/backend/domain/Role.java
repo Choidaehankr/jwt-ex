@@ -15,4 +15,5 @@ public enum Role {
     public String getGrantedAuthority() {
         return grantedAuthority;
     }
+
 }
