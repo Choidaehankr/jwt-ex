@@ -1,7 +1,6 @@
 package com.springsecurity.ex.backend.login.oauth2.provider;
 
 import com.springsecurity.ex.backend.login.oauth2.authentication.ApplicationToken;
-import com.sun.istack.NotNull;
 import io.jsonwebtoken.security.Keys;
 import java.security.Key;
 import java.sql.Date;
