@@ -25,6 +25,7 @@ public class LoadUserService {
 
         String socialPk = socialLoadStrategy.getSocialPk(authentication.getAccessToken());
 
+        // socialId와 socialType 을 반환
         return OAuth2UserDetails.builder()
                 .socialId(socialPk)
                 .socialType(socialType)

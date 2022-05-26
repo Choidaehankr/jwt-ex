@@ -8,7 +8,7 @@ import org.springframework.security.core.GrantedAuthority;
 
 public class AccessTokenSocialTypeToken extends AbstractAuthenticationToken {
 
-    private Object principal;
+    private Object principal;  // OAuth2UserDetails 타입
 
     private String accessToken;
     private SocialType socialType;
