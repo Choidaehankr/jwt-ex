@@ -24,6 +24,9 @@ public class AccessTokenAuthenticationProvider implements AuthenticationProvider
     private final MemberRepository memberRepository;  // 받아온 정보를 통해 DB에서 회원을 조회하는 역할
 
     private final ApplicationTokenProvider applicationTokenProvider;
+
+    private String applicationToken_tmp;
+
     @SneakyThrows
     @Override
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
@@ -34,21 +37,14 @@ public class AccessTokenAuthenticationProvider implements AuthenticationProvider
         Member member = saveOrGet(oAuth2User);  // 식별자와 소셜 로그인 방식을 통해 회원을 DB 에서 조회 후 없다면 추가. 있다면 그대로 반환
         oAuth2User.setRoles(member.getRole().name());  // Role 의 name 은 ADMIN, USER, GUEST 로 ROLE_ 을 붙여주는 과정이 필요. setRoles 가 담당.
 
-        saveApplicationToken(member.getSocialId());
+        // 현재 socialId를 ApplicationTokenProvider 에 저장. (jwt 발급을 위해)
+        applicationTokenProvider.setSocialId(member.getSocialId());
 
         return AccessTokenSocialTypeToken.builder().principal(oAuth2User).authorities(oAuth2User.getAuthorities()).build();
         // AccessTokenSocialTypeToken 객체를 반환. principal 은 OAuth2UserDetails 객체
         // UserDetails 타입으로 회원의 정보를 어디서든 조회 가능
     }
 
-    private void saveApplicationToken(String socialId) {
-        ApplicationToken applicationToken = applicationTokenProvider.createUserApplicationToken(socialId);
-
-        System.out.println("applicationToken = " + applicationToken.getToken());
-        // save Code ..
-
-        // save Code
-    }
     private Member saveOrGet(OAuth2UserDetails oAuth2User) {
         return memberRepository.findBySocialTypeAndSocialId(oAuth2User.getSocialType(),
                                                             oAuth2User.getSocialId())

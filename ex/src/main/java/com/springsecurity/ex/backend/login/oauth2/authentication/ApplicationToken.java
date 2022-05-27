@@ -29,4 +29,14 @@ public class ApplicationToken {
                 .setExpiration(expiry)
                 .compact();
     }
+
+    public String getToken() {
+        return this.token;
+    }
+
+    public Key getKey() {
+        return this.key;
+    }
+
+
 }

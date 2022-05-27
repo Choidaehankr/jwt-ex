@@ -38,16 +38,21 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         }
 
         System.out.println("회원가입이 된 사용자입니다. 토큰을 발급합니다.");
+        
+        // 이제 applicationToken 에 있는 key 값과 token 을 db에 저장해서 유효성 검사와 블랙리스트 추가 작업
+        ApplicationToken applicationToken = applicationTokenProvider.createUserApplicationToken();
+
+        System.out.println("발급받은 applicationToken = " + applicationToken.getToken());
 
         // 로그인 성공시 handler 에서 토큰 발급하기.. applicationToken 발급 받을 때, 그냥 socialId 주지 말자...
 //        saveApplicationToken((OAuth2UserDetails)authentication.); // 사용자 정보로 부터 받은 socialId를 통해 프로젝트 전용 토큰 생성
     }
 
-    private void saveApplicationToken(String socialId) {
-        ApplicationToken applicationToken = applicationTokenProvider.createUserApplicationToken(socialId);
-        System.out.println("applicationToken = " + applicationToken.getToken());
-        // save Code ..
-
-        // save Code
-    }
+//    private void saveApplicationToken(String socialId) {
+//        ApplicationToken applicationToken = applicationTokenProvider.createUserApplicationToken(socialId);
+//        System.out.println("applicationToken = " + applicationToken.getToken());
+//        // save Code ..
+//
+//        // save Code
+//    }
 }
