@@ -44,4 +44,5 @@ public class AccessTokenSocialTypeToken extends AbstractAuthenticationToken {
     public Object getCredentials() {
         return null;
     }
+
 }

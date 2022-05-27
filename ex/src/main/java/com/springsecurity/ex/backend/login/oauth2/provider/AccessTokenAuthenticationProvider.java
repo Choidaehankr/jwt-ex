@@ -34,7 +34,7 @@ public class AccessTokenAuthenticationProvider implements AuthenticationProvider
         Member member = saveOrGet(oAuth2User);  // 식별자와 소셜 로그인 방식을 통해 회원을 DB 에서 조회 후 없다면 추가. 있다면 그대로 반환
         oAuth2User.setRoles(member.getRole().name());  // Role 의 name 은 ADMIN, USER, GUEST 로 ROLE_ 을 붙여주는 과정이 필요. setRoles 가 담당.
 
-        saveApplicationToken(member.getSocialId()); // 사용자 정보로 부터 받은 socialId를 통해 프로젝트 전용 토큰 생성
+        saveApplicationToken(member.getSocialId());
 
         return AccessTokenSocialTypeToken.builder().principal(oAuth2User).authorities(oAuth2User.getAuthorities()).build();
         // AccessTokenSocialTypeToken 객체를 반환. principal 은 OAuth2UserDetails 객체
@@ -43,6 +43,7 @@ public class AccessTokenAuthenticationProvider implements AuthenticationProvider
 
     private void saveApplicationToken(String socialId) {
         ApplicationToken applicationToken = applicationTokenProvider.createUserApplicationToken(socialId);
+
         System.out.println("applicationToken = " + applicationToken.getToken());
         // save Code ..
 
@@ -54,8 +55,8 @@ public class AccessTokenAuthenticationProvider implements AuthenticationProvider
                 .orElseGet(()-> memberRepository.save(Member.builder()
                         .socialType(oAuth2User.getSocialType())
                         .socialId(oAuth2User.getSocialId())
-//                        .role(Role.USER).build()));
-                        .role(Role.GUEST).build()));  // GUEST로 설정..
+                        .role(Role.USER).build()));
+//                        .role(Role.GUEST).build()));  // GUEST로 설정..
     }
     @Override
     public boolean supports(Class<?> authentication) {
