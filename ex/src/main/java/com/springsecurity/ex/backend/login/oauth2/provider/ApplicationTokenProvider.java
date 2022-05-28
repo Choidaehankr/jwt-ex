@@ -20,6 +20,8 @@ public class ApplicationTokenProvider {
     private final Key key;
     private String socialId;
 
+//    private static final String AUTHORITIES_KEY = "ROLE_";
+
     public ApplicationTokenProvider(@Value("${app.auth.tokenSecret}") String secretKey) {
         this.key = Keys.hmacShaKeyFor(secretKey.getBytes());
     }
@@ -29,8 +31,13 @@ public class ApplicationTokenProvider {
         return new ApplicationToken(id, expiryDate, key);
     }
 
-    public ApplicationToken createUserApplicationToken() {
-        return createToken(socialId, expiry);
+    public ApplicationToken createUserApplicationToken(String id) {
+//        return createToken(socialId, expiry);
+        return createToken(id, expiry);
+    }
+
+    public ApplicationToken convertApplicationToken(String token) {
+        return new ApplicationToken(token, key);
     }
 
     public static Date getExpiryDate(String expiry) {

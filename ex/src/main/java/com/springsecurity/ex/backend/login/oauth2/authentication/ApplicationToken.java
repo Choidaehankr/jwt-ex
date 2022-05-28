@@ -1,8 +1,11 @@
 package com.springsecurity.ex.backend.login.oauth2.authentication;
 
 import com.springsecurity.ex.backend.domain.Role;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
+import io.jsonwebtoken.MalformedJwtException;
 import io.jsonwebtoken.SignatureAlgorithm;
+import io.jsonwebtoken.UnsupportedJwtException;
 import java.security.Key;
 import java.util.Date;
 import lombok.Getter;
@@ -28,6 +31,25 @@ public class ApplicationToken {
                 .signWith(key, SignatureAlgorithm.HS256)
                 .setExpiration(expiry)
                 .compact();
+    }
+
+    public boolean validate() {
+        return this.getTokenClaims() != null;
+    }
+
+    public Claims getTokenClaims() {
+        try {
+            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJwt(token).getBody();
+        } catch (SecurityException e) {
+            log.info("Invalid JWT signature.");
+        } catch (MalformedJwtException e) {
+            log.info("Invalid JWT token.");
+        } catch (UnsupportedJwtException e) {
+            log.info("Unsupported Jwt token");
+        } catch (IllegalArgumentException e) {
+            log.info("JWT token compact of handler are invalid");
+        }
+        return null;
     }
 
     public String getToken() {

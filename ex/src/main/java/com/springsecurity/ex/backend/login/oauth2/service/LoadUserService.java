@@ -3,7 +3,9 @@ package com.springsecurity.ex.backend.login.oauth2.service;
 
 import com.springsecurity.ex.backend.login.oauth2.SocialType;
 import com.springsecurity.ex.backend.login.oauth2.authentication.AccessTokenSocialTypeToken;
+import com.springsecurity.ex.backend.login.oauth2.authentication.ApplicationToken;
 import com.springsecurity.ex.backend.login.oauth2.authentication.OAuth2UserDetails;
+import com.springsecurity.ex.backend.login.oauth2.dto.AuthResponse;
 import com.springsecurity.ex.backend.login.oauth2.provider.ApplicationTokenProvider;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -17,6 +19,10 @@ public class LoadUserService {
 
     private SocialLoadStrategy socialLoadStrategy;
 
+    private final ApplicationTokenProvider applicationTokenProvider;
+
+    private ApplicationToken app;
+
     public OAuth2UserDetails getOAuth2UserDetails(AccessTokenSocialTypeToken authentication) {
 
         SocialType socialType = authentication.getSocialType();
@@ -24,6 +30,13 @@ public class LoadUserService {
         setSocialLoadStrategy(socialType);
 
         String socialPk = socialLoadStrategy.getSocialPk(authentication.getAccessToken());
+
+        // applicationToken 발급 위치 변경
+        ApplicationToken applicationToken = applicationTokenProvider.createUserApplicationToken(socialPk);
+
+        this.app = applicationToken;
+
+        System.out.println("@@@ applicationToken = " + applicationToken.getToken());
 
         // socialId와 socialType 을 반환
         return OAuth2UserDetails.builder()
