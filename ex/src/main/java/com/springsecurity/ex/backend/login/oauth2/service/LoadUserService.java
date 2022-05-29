@@ -5,8 +5,10 @@ import com.springsecurity.ex.backend.login.oauth2.SocialType;
 import com.springsecurity.ex.backend.login.oauth2.authentication.AccessTokenSocialTypeToken;
 import com.springsecurity.ex.backend.login.oauth2.authentication.ApplicationToken;
 import com.springsecurity.ex.backend.login.oauth2.authentication.OAuth2UserDetails;
+import com.springsecurity.ex.backend.login.oauth2.dto.AuthRequest;
 import com.springsecurity.ex.backend.login.oauth2.dto.AuthResponse;
 import com.springsecurity.ex.backend.login.oauth2.provider.ApplicationTokenProvider;
+import javax.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -30,7 +32,9 @@ public class LoadUserService {
         setSocialLoadStrategy(socialType);
 
         String socialPk = socialLoadStrategy.getSocialPk(authentication.getAccessToken());
-
+//
+//        ApplicationToken applicationToken = applicationTokenProvider.createUserApplicationToken(socialPk);
+//
         // applicationToken 발급 위치 변경
 //        ApplicationToken applicationToken = applicationTokenProvider.createUserApplicationToken(socialPk);
 //

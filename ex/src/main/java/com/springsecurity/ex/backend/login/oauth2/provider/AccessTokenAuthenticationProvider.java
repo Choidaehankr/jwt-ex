@@ -39,10 +39,10 @@ public class AccessTokenAuthenticationProvider implements AuthenticationProvider
         ApplicationToken applicationToken = applicationTokenProvider.createUserApplicationToken(member.getSocialId());
 
         System.out.println("applicationToken = " + applicationToken.getToken());
-//        return AccessTokenSocialTypeToken.builder().principal(oAuth2User).authorities(oAuth2User.getAuthorities()).build();
+        return AccessTokenSocialTypeToken.builder().principal(oAuth2User).authorities(oAuth2User.getAuthorities()).build();
 
         // AuthenticationManager 로  applicationToken 을 함께 build 해서 반환되고, 최종적으로 filter 로 반환됨.
-        return AccessTokenSocialTypeToken.builder().principal(oAuth2User).authorities(oAuth2User.getAuthorities()).applicationToken(applicationToken.getToken()).build();
+//        return AccessTokenSocialTypeToken.builder().principal(oAuth2User).authorities(oAuth2User.getAuthorities()).applicationToken(applicationToken.getToken()).build();
         // AccessTokenSocialTypeToken 객체를 반환. principal 은 OAuth2UserDetails 객체
         // UserDetails 타입으로 회원의 정보를 어디서든 조회 가능
     }

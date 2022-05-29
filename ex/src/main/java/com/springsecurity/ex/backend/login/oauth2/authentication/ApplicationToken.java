@@ -39,7 +39,7 @@ public class ApplicationToken {
 
     public Claims getTokenClaims() {
         try {
-            Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJwt(token).getBody();
+            return Jwts.parserBuilder().setSigningKey(key).build().parseClaimsJwt(token).getBody();
         } catch (SecurityException e) {
             log.info("Invalid JWT signature.");
         } catch (MalformedJwtException e) {

@@ -5,6 +5,7 @@ import com.springsecurity.ex.backend.login.oauth2.authentication.AccessTokenSoci
 import com.springsecurity.ex.backend.login.oauth2.authentication.ApplicationToken;
 import com.springsecurity.ex.backend.login.oauth2.authentication.OAuth2UserDetails;
 import com.springsecurity.ex.backend.login.oauth2.provider.ApplicationTokenProvider;
+import com.springsecurity.ex.backend.login.oauth2.service.LoadUserService;
 import com.springsecurity.ex.backend.login.oauth2.service.SocialLoadStrategy;
 import java.io.IOException;
 import java.util.Map;
@@ -29,6 +30,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
     private final ApplicationTokenProvider applicationTokenProvider;
     private SocialLoadStrategy socialLoadStrategy;
+    private final LoadUserService loadUserService;
 
 
 
@@ -68,6 +70,9 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         System.out.println("회원가입이 된 사용자입니다. 토큰을 발급합니다.");
 
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
+//        OAuth2UserDetails oAuth2User = loadUserService.getOAuth2UserDetails((AccessTokenSocialTypeToken) authentication);
+
 
         // 이제 applicationToken 에 있는 key 값과 token 을 db에 저장해서 유효성 검사와 블랙리스트 추가 작업
 //        ApplicationToken applicationToken = applicationTokenProvider.createUserApplicationToken();
