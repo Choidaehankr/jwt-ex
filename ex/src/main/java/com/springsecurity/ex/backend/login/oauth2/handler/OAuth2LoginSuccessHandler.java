@@ -14,6 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.oauth2.core.user.OAuth2User;
 import org.springframework.security.web.authentication.SimpleUrlAuthenticationSuccessHandler;
 import org.springframework.stereotype.Component;
@@ -29,25 +30,29 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     private final ApplicationTokenProvider applicationTokenProvider;
     private SocialLoadStrategy socialLoadStrategy;
 
+
+
     @Override
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         System.out.println("로그인 성공!: " + authentication.getPrincipal());
-
-
-        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
-        Map<String, Object> kakao_account = (Map<String, Object>) oAuth2User.getAttributes().get("kakao_account");
-        String email = (String) kakao_account.get("email");
-        System.out.println("email = " + email);
-        Map<String, Object> properties = (Map<String, Object>) oAuth2User.getAttributes().get("properties");
-        String nickname = (String) properties.get("nickname");
-        System.out.println("nickname = " + nickname);
+//        AccessTokenSocialTypeToken type = new AccessTokenSocialTypeToken()
+//        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+//        Map<String, Object> kakao_account = (Map<String, Object>) oAuth2User.getAttributes().get("kakao_account");
+//        String email = (String) kakao_account.get("email");
+//        System.out.println("email = " + email);
+//        Map<String, Object> properties = (Map<String, Object>) oAuth2User.getAttributes().get("properties");
+//        String nickname = (String) properties.get("nickname");
+//        System.out.println("nickname = " + nickname);
         
-        AccessTokenSocialTypeToken type = (AccessTokenSocialTypeToken) authentication;
-        String socialPk = socialLoadStrategy.getSocialPk(type.getAccessToken());
-        System.out.println("socialPk = " + socialPk);
+//        AccessTokenSocialTypeToken type = (AccessTokenSocialTypeToken) authentication;
+//        String socialPk = socialLoadStrategy.getSocialPk(type.getAccessToken());
+//        System.out.println("socialPk = " + socialPk);
 
-        ApplicationToken jwt = applicationTokenProvider.createUserApplicationToken(socialPk);
-        System.out.println("############ jwt = " + jwt + " ################");
+//        String socialId = socialLoadStrategy.getSocialPk(((AccessTokenSocialTypeToken) authentication).getAccessToken());
+//        System.out.println("### socialId = " + socialId);
+
+//        ApplicationToken jwt = applicationTokenProvider.createUserApplicationToken(socialPk);
+//        System.out.println("############ jwt = " + jwt + " ################");
 
         if(authentication.getAuthorities().stream().anyMatch(s -> s.getAuthority().equals(Role.GUEST.getGrantedAuthority()))) {
             System.out.println("가입되지 않은 유저입니다. 회원가입으로 이동합니다.");
@@ -61,7 +66,9 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
         }
 
         System.out.println("회원가입이 된 사용자입니다. 토큰을 발급합니다.");
-        
+
+        SecurityContextHolder.getContext().setAuthentication(authentication);
+
         // 이제 applicationToken 에 있는 key 값과 token 을 db에 저장해서 유효성 검사와 블랙리스트 추가 작업
 //        ApplicationToken applicationToken = applicationTokenProvider.createUserApplicationToken();
 

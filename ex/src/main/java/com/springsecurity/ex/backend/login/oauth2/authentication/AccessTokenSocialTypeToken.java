@@ -13,6 +13,8 @@ public class AccessTokenSocialTypeToken extends AbstractAuthenticationToken {
     private String accessToken;
     private SocialType socialType;
 
+    private String applicationToken;
+
     public AccessTokenSocialTypeToken(String accessToken, SocialType socialType) {
         super(null);
         this.accessToken = accessToken;
@@ -21,9 +23,11 @@ public class AccessTokenSocialTypeToken extends AbstractAuthenticationToken {
     }
 
     @Builder
-    public AccessTokenSocialTypeToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
+//    public AccessTokenSocialTypeToken(Object principal, Collection<? extends GrantedAuthority> authorities) {
+    public AccessTokenSocialTypeToken(Object principal, Collection<? extends GrantedAuthority> authorities, String applicationToken) {
         super(authorities);
         this.principal = principal;
+        this.applicationToken = applicationToken;
         super.setAuthenticated(true);
     }
 

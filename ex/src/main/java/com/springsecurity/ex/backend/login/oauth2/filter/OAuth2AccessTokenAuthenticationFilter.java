@@ -4,10 +4,13 @@ package com.springsecurity.ex.backend.login.oauth2.filter;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.springsecurity.ex.backend.login.oauth2.SocialType;
 import com.springsecurity.ex.backend.login.oauth2.authentication.AccessTokenSocialTypeToken;
+import com.springsecurity.ex.backend.login.oauth2.authentication.OAuth2UserDetails;
 import com.springsecurity.ex.backend.login.oauth2.provider.AccessTokenAuthenticationProvider;
+import com.springsecurity.ex.backend.login.oauth2.service.LoadUserService;
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Map;
+import javax.servlet.FilterChain;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
@@ -38,15 +41,21 @@ public class OAuth2AccessTokenAuthenticationFilter extends AbstractAuthenticatio
 
     private static final String ACCESS_TOKEN_HEADER_NAME = "Authorization";
 
+    private final LoadUserService loadUserService;
+
     private static final AntPathRequestMatcher DEFAULT_OAUTH2_LOGIN_PATH_REQUEST_MATCHER =
             new AntPathRequestMatcher(DEFAULT_OAUTH2_LOGIN_REQUEST_URL_PREFIX + "*", HTTP_METHOD);
 
     public OAuth2AccessTokenAuthenticationFilter (
             AccessTokenAuthenticationProvider accessTokenAuthenticationProvider,
             AuthenticationSuccessHandler authenticationSuccessHandler,
-            AuthenticationFailureHandler authenticationFailureHandler) {
+            AuthenticationFailureHandler authenticationFailureHandler,
+            LoadUserService loadUserService) {
 
         super(DEFAULT_OAUTH2_LOGIN_PATH_REQUEST_MATCHER);
+
+
+        this.loadUserService = loadUserService;
 
         // AbstractAuthenticationProcessingFilter 를 커스텀하기 위해 ProviderManager 를 지정
         this.setAuthenticationManager(new ProviderManager(accessTokenAuthenticationProvider));
@@ -89,8 +98,11 @@ public class OAuth2AccessTokenAuthenticationFilter extends AbstractAuthenticatio
         log.info("refreshToken: " + refreshToken);
 
         // end
+
+//        String accessToken = request.getHeader(ACCESS_TOKEN_HEADER_NAME);
         return this.getAuthenticationManager().authenticate(new AccessTokenSocialTypeToken(accessToken, socialType));
     }
+
 
     private SocialType extractSocialType(HttpServletRequest request) {
         return Arrays.stream(SocialType.values())

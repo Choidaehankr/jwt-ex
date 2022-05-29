@@ -21,7 +21,7 @@ public class LoadUserService {
 
     private final ApplicationTokenProvider applicationTokenProvider;
 
-    private ApplicationToken app;
+//    private ApplicationToken app;
 
     public OAuth2UserDetails getOAuth2UserDetails(AccessTokenSocialTypeToken authentication) {
 
@@ -32,11 +32,11 @@ public class LoadUserService {
         String socialPk = socialLoadStrategy.getSocialPk(authentication.getAccessToken());
 
         // applicationToken 발급 위치 변경
-        ApplicationToken applicationToken = applicationTokenProvider.createUserApplicationToken(socialPk);
-
-        this.app = applicationToken;
-
-        System.out.println("@@@ applicationToken = " + applicationToken.getToken());
+//        ApplicationToken applicationToken = applicationTokenProvider.createUserApplicationToken(socialPk);
+//
+//        this.app = applicationToken;
+//
+//        System.out.println("@@@ applicationToken = " + applicationToken.getToken());
 
         // socialId와 socialType 을 반환
         return OAuth2UserDetails.builder()

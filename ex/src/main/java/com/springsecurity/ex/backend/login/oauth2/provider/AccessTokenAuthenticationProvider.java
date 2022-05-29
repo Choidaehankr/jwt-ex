@@ -24,7 +24,7 @@ public class AccessTokenAuthenticationProvider implements AuthenticationProvider
     private final MemberRepository memberRepository;  // 받아온 정보를 통해 DB에서 회원을 조회하는 역할
 
 
-    private String applicationToken_tmp;
+    private final ApplicationTokenProvider applicationTokenProvider;
 
     @SneakyThrows
     @Override
@@ -36,9 +36,13 @@ public class AccessTokenAuthenticationProvider implements AuthenticationProvider
         Member member = saveOrGet(oAuth2User);  // 식별자와 소셜 로그인 방식을 통해 회원을 DB 에서 조회 후 없다면 추가. 있다면 그대로 반환
         oAuth2User.setRoles(member.getRole().name());  // Role 의 name 은 ADMIN, USER, GUEST 로 ROLE_ 을 붙여주는 과정이 필요. setRoles 가 담당.
 
+        ApplicationToken applicationToken = applicationTokenProvider.createUserApplicationToken(member.getSocialId());
 
+        System.out.println("applicationToken = " + applicationToken.getToken());
+//        return AccessTokenSocialTypeToken.builder().principal(oAuth2User).authorities(oAuth2User.getAuthorities()).build();
 
-        return AccessTokenSocialTypeToken.builder().principal(oAuth2User).authorities(oAuth2User.getAuthorities()).build();
+        // AuthenticationManager 로  applicationToken 을 함께 build 해서 반환되고, 최종적으로 filter 로 반환됨.
+        return AccessTokenSocialTypeToken.builder().principal(oAuth2User).authorities(oAuth2User.getAuthorities()).applicationToken(applicationToken.getToken()).build();
         // AccessTokenSocialTypeToken 객체를 반환. principal 은 OAuth2UserDetails 객체
         // UserDetails 타입으로 회원의 정보를 어디서든 조회 가능
     }
