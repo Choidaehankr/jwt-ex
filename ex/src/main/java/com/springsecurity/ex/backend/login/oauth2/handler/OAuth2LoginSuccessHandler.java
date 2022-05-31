@@ -1,5 +1,7 @@
 package com.springsecurity.ex.backend.login.oauth2.handler;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.springsecurity.ex.backend.domain.JwtResponseDto;
 import com.springsecurity.ex.backend.domain.Role;
 import com.springsecurity.ex.backend.login.oauth2.authentication.AccessTokenSocialTypeToken;
 import com.springsecurity.ex.backend.login.oauth2.authentication.ApplicationToken;
@@ -38,7 +40,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
     public void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response, Authentication authentication) throws IOException, ServletException {
         System.out.println("로그인 성공!: " + authentication.getPrincipal());
 //        AccessTokenSocialTypeToken type = new AccessTokenSocialTypeToken()
-//        OAuth2User oAuth2User = (OAuth2User) authentication.getPrincipal();
+        OAuth2UserDetails oAuth2User = (OAuth2UserDetails) authentication.getPrincipal();
 //        Map<String, Object> kakao_account = (Map<String, Object>) oAuth2User.getAttributes().get("kakao_account");
 //        String email = (String) kakao_account.get("email");
 //        System.out.println("email = " + email);
@@ -53,8 +55,9 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 //        String socialId = socialLoadStrategy.getSocialPk(((AccessTokenSocialTypeToken) authentication).getAccessToken());
 //        System.out.println("### socialId = " + socialId);
 
-//        ApplicationToken jwt = applicationTokenProvider.createUserApplicationToken(socialPk);
-//        System.out.println("############ jwt = " + jwt + " ################");
+        ApplicationToken token = applicationTokenProvider.createUserApplicationToken(oAuth2User.getMemberId());
+        System.out.println("jwt = " + token.getToken());
+        JwtResponseDto jwtResponseDto = new JwtResponseDto(token.getToken());
 
         if(authentication.getAuthorities().stream().anyMatch(s -> s.getAuthority().equals(Role.GUEST.getGrantedAuthority()))) {
             System.out.println("가입되지 않은 유저입니다. 회원가입으로 이동합니다.");
@@ -67,9 +70,13 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
             return;
         }
 
-        System.out.println("회원가입이 된 사용자입니다. 토큰을 발급합니다.");
-
+        System.out.println("토큰을 발급합니다.");
         SecurityContextHolder.getContext().setAuthentication(authentication);
+
+        ObjectMapper mapper = new ObjectMapper();
+        response.setContentType("application/json");
+        response.setCharacterEncoding("utf-8");
+        response.getWriter().write(mapper.writeValueAsString(jwtResponseDto));
 
 //        OAuth2UserDetails oAuth2User = loadUserService.getOAuth2UserDetails((AccessTokenSocialTypeToken) authentication);
 
@@ -81,6 +88,7 @@ public class OAuth2LoginSuccessHandler extends SimpleUrlAuthenticationSuccessHan
 
         // 로그인 성공시 handler 에서 토큰 발급하기.. applicationToken 발급 받을 때, 그냥 socialId 주지 말자...
 //        saveApplicationToken((OAuth2UserDetails)authentication.); // 사용자 정보로 부터 받은 socialId를 통해 프로젝트 전용 토큰 생성
+//        response.;
     }
 
 //    private void saveApplicationToken(String socialId) {

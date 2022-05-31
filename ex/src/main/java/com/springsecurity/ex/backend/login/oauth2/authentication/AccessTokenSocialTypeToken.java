@@ -27,7 +27,6 @@ public class AccessTokenSocialTypeToken extends AbstractAuthenticationToken {
 //    public AccessTokenSocialTypeToken(Object principal, Collection<? extends GrantedAuthority> authorities, String applicationToken) {
         super(authorities);
         this.principal = principal;
-        this.applicationToken = applicationToken;
         super.setAuthenticated(true);
     }
 

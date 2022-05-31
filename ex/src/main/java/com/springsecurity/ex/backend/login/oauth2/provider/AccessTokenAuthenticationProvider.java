@@ -11,9 +11,12 @@ import com.springsecurity.ex.backend.login.oauth2.service.LoadUserService;
 import lombok.RequiredArgsConstructor;
 import lombok.SneakyThrows;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.oauth2.core.OAuth2AuthenticationException;
+import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.stereotype.Component;
 
 @RequiredArgsConstructor
@@ -35,10 +38,11 @@ public class AccessTokenAuthenticationProvider implements AuthenticationProvider
 //        getOAuth2UserDetails 에서는 restTemplate 와 AccessToken 을 가지고 회원 정보를 조회한다.
         Member member = saveOrGet(oAuth2User);  // 식별자와 소셜 로그인 방식을 통해 회원을 DB 에서 조회 후 없다면 추가. 있다면 그대로 반환
         oAuth2User.setRoles(member.getRole().name());  // Role 의 name 은 ADMIN, USER, GUEST 로 ROLE_ 을 붙여주는 과정이 필요. setRoles 가 담당.
+        oAuth2User.setMemberId(member.getId());
 
-        ApplicationToken applicationToken = applicationTokenProvider.createUserApplicationToken(member.getSocialId());
+//        ApplicationToken applicationToken = applicationTokenProvider.createUserApplicationToken(member.getSocialId());
+//        System.out.println("applicationToken = " + applicationToken.getToken());
 
-        System.out.println("applicationToken = " + applicationToken.getToken());
         return AccessTokenSocialTypeToken.builder().principal(oAuth2User).authorities(oAuth2User.getAuthorities()).build();
 
         // AuthenticationManager 로  applicationToken 을 함께 build 해서 반환되고, 최종적으로 filter 로 반환됨.

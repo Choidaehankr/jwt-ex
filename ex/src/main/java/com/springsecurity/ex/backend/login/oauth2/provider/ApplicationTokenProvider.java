@@ -39,9 +39,9 @@ public class ApplicationTokenProvider {
         return new ApplicationToken(id, expiryDate, key);
     }
 
-    public ApplicationToken createUserApplicationToken(String id) {
+    public ApplicationToken createUserApplicationToken(Long id) {
 //        return createToken(socialId, expiry);
-        return createToken(id, expiry);
+        return createToken(id.toString(), expiry);
     }
 
     public ApplicationToken convertApplicationToken(String token) {

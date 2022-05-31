@@ -9,6 +9,7 @@ import java.util.Set;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Builder.ObtainVia;
+import lombok.Setter;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
@@ -18,6 +19,7 @@ import org.springframework.util.Assert;
 @Builder
 public class OAuth2UserDetails implements UserDetails {
 
+    private Long memberId;
     private SocialType socialType;
     private String socialId;
     private String username;
@@ -29,6 +31,13 @@ public class OAuth2UserDetails implements UserDetails {
 
     public String getSocialId() {
         return socialId;
+    }
+
+    public void setMemberId(Long memberId) {
+        this.memberId = memberId;
+    }
+    public Long getMemberId() {
+        return this.memberId;
     }
 
     @Override
